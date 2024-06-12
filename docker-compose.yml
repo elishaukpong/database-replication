@@ -1,3 +1,60 @@
 version: "3"
 
 services:
+  primary-sql:
+    env_file:
+      - .env
+    container_name: main-sql
+    image: mysql
+    build:
+      context: ./docker/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - "./docker/mysql/primary/my.conf:/etc/mysql/conf.d/my.cnf"
+      - replication:/var/lib/mysql
+
+  replica-sql-1:
+    env_file:
+      - .env
+    container_name: replica-sql-1
+    image: mysql
+    build:
+      context: ./docker/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - "./docker/mysql/replica-1/my.conf:/etc/mysql/conf.d/my.cnf"
+      - replication:/var/lib/mysql
+
+  replica-sql-2:
+    env_file:
+      - .env
+    container_name: replica-sql-2
+    image: mysql
+    build:
+      context: ./docker/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - "./docker/mysql/replica-2/my.conf:/etc/mysql/conf.d/my.cnf"
+      - replication:/var/lib/mysql
+
+
+volumes:
+  replication:
