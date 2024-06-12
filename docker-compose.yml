@@ -16,7 +16,8 @@ services:
     ports:
       - ${PRIMARY_MYSQL_PORT}:3306
     volumes:
-      - "./docker/mysql/primary/my.conf:/etc/mysql/conf.d/my.cnf"
+      - ./docker/mysql/primary/my.conf:/etc/mysql/conf.d/my.cnf
+      - ./docker/mysql/primary/logs:/var/log/mysql
       - replication:/var/lib/mysql
 
   replica-sql-1:
@@ -34,7 +35,8 @@ services:
     ports:
       - ${REPLICA_1_MYSQL_PORT}:3306
     volumes:
-      - "./docker/mysql/replica-1/my.conf:/etc/mysql/conf.d/my.cnf"
+      - ./docker/mysql/replica-1/my.conf:/etc/mysql/conf.d/my.cnf
+      - ./docker/mysql/replica-1/logs:/var/log/mysql
       - replication:/var/lib/mysql
 
   replica-sql-2:
@@ -52,7 +54,8 @@ services:
     ports:
       - ${REPLICA_2_MYSQL_PORT}:3306
     volumes:
-      - "./docker/mysql/replica-2/my.conf:/etc/mysql/conf.d/my.cnf"
+      - ./docker/mysql/replica-2/my.conf:/etc/mysql/conf.d/my.cnf
+      - ./docker/mysql/replica-2/logs:/var/log/mysql
       - replication:/var/lib/mysql
 
 
