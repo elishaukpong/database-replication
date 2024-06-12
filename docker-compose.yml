@@ -9,12 +9,12 @@ services:
     build:
       context: ./docker/mysql
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${PRIMARY_MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${PRIMARY_MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${PRIMARY_MYSQL_USER}
+      MYSQL_PASSWORD: ${PRIMARY_MYSQL_PASSWORD}
     ports:
-      - ${MYSQL_PORT}:3306
+      - ${PRIMARY_MYSQL_PORT}:3306
     volumes:
       - "./docker/mysql/primary/my.conf:/etc/mysql/conf.d/my.cnf"
       - replication:/var/lib/mysql
@@ -27,12 +27,12 @@ services:
     build:
       context: ./docker/mysql
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${REPLICA_1_MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${REPLICA_1_MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${REPLICA_1_MYSQL_USER}
+      MYSQL_PASSWORD: ${REPLICA_1_MYSQL_PASSWORD}
     ports:
-      - ${MYSQL_PORT}:3306
+      - ${REPLICA_1_MYSQL_PORT}:3306
     volumes:
       - "./docker/mysql/replica-1/my.conf:/etc/mysql/conf.d/my.cnf"
       - replication:/var/lib/mysql
@@ -45,12 +45,12 @@ services:
     build:
       context: ./docker/mysql
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${REPLICA_2_MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${REPLICA_2_MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${REPLICA_2_MYSQL_USER}
+      MYSQL_PASSWORD: ${REPLICA_2_MYSQL_PASSWORD}
     ports:
-      - ${MYSQL_PORT}:3306
+      - ${REPLICA_2_MYSQL_PORT}:3306
     volumes:
       - "./docker/mysql/replica-2/my.conf:/etc/mysql/conf.d/my.cnf"
       - replication:/var/lib/mysql
