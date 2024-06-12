@@ -17,8 +17,12 @@ services:
       - ${PRIMARY_MYSQL_PORT}:3306
     volumes:
       - ./docker/mysql/primary/my.conf:/etc/mysql/conf.d/my.cnf
-      - ./docker/mysql/primary/logs:/var/log/mysql
-      - replication:/var/lib/mysql
+      - ./docker/mysql/primary/logs:/var/log/mysql:rw
+      - ./docker/mysql/dumps:/var/log/dumps:rw
+      - main:/var/lib/mysql
+    depends_on:
+      - replica-sql-1
+      - replica-sql-2
 
   replica-sql-1:
     env_file:
@@ -36,8 +40,9 @@ services:
       - ${REPLICA_1_MYSQL_PORT}:3306
     volumes:
       - ./docker/mysql/replica-1/my.conf:/etc/mysql/conf.d/my.cnf
-      - ./docker/mysql/replica-1/logs:/var/log/mysql
-      - replication:/var/lib/mysql
+      - ./docker/mysql/replica-1/logs:/var/log/mysql:rw
+      - ./docker/mysql/dumps:/var/log/dumps:rw
+      - replication-1:/var/lib/mysql
 
   replica-sql-2:
     env_file:
@@ -55,9 +60,12 @@ services:
       - ${REPLICA_2_MYSQL_PORT}:3306
     volumes:
       - ./docker/mysql/replica-2/my.conf:/etc/mysql/conf.d/my.cnf
-      - ./docker/mysql/replica-2/logs:/var/log/mysql
-      - replication:/var/lib/mysql
+      - ./docker/mysql/replica-2/logs:/var/log/mysql:rw
+      - ./docker/mysql/dumps:/var/log/dumps:rw
+      - replication-2:/var/lib/mysql
 
 
 volumes:
-  replication:
+  main:
+  replication-1:
+  replication-2:
