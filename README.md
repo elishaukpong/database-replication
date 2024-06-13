@@ -12,34 +12,20 @@ and two replica DBs for reads, you can have as many replicas as possible, you ju
 replica mysql containers and follow the steps to listen for the replica events, more on that later.
 
 
-## Setup
+## Setup Containers
+
+To run this setup, you will need to have `Docker` installed and running on your system.
+
+Open your terminal in the project folder and run `cp .env.example .env` to copy the env file.
+
+Run `docker-compose up -d` and wait for the services to finish build and be available.
 
 
+## Setup Replication
+
+## The Docker File
 
 
-Create a replication user on the master server with the necessary privileges:
+### Todo 
 
-```
-CREATE USER 'replica_user'@'%' IDENTIFIED BY 'password';
-GRANT REPLICATION SLAVE ON *.* TO 'replica_user'@'%';
-FLUSH PRIVILEGES;
-```
-
-
-```
-CHANGE MASTER TO
-MASTER_HOST='primary-sql',
-MASTER_USER='replica_user',
-MASTER_PASSWORD='password',
-MASTER_LOG_FILE='/var/log/mysql/mysql-bin.000001',
-MASTER_LOG_POS=941;
-
-```
-
-
-```CREATE TABLE userss (
-user_id INT AUTO_INCREMENT PRIMARY KEY,
-username VARCHAR(50) NOT NULL,
-email VARCHAR(100) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);```
+[] Add a webserver to visualize the replication
