@@ -22,8 +22,21 @@ Run `docker-compose up -d` and wait for the services to finish build and be avai
 
 
 ## Setup Replication
+// coming soon
 
 ## The Docker File
+
+The Docker file contains 3 services which are instances of the mysql image:
+- primary-sql
+- replica-sql-1
+- replica-sql-2
+
+The `primary-sql` instance acts as the WRITE DB while the `replica-sql-1` and `replica-sql-2`
+acts as the READ DB.
+
+Each respective mysql container has a folder in the `docker/mysql` folder and contains the config
+files and logs folder. You can update it to suit your custom needs but the default details there are
+just right to get us going.
 
 
 ### Todo 
