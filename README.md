@@ -23,11 +23,14 @@ Run `docker-compose up -d` and wait for the services to finish build and be avai
 
 ## Setup Replication
 
-*Assumption: You have a terminal access open at this project folder*
+*Assumption: You have a terminal access open at this project folder*  
+  
+  
 
 The needed config for the WRITE and READ DBs are already setup and can be found inside the 
 `docker/mysql` folder.
 
+### WRITE DATABASE SETUP
 We will start with setting up the WRITE DB.
 
 Open the terminal for your WRITE DB and run:
@@ -39,13 +42,13 @@ docker-compose exec primary-sql bash
 This will open up a bash command line interface for the primary-sql container, then you 
 login to mysql, using:
 
-```
+```shell
 mysql -u root -p
 ```
 
 It will prompt for your password and you provide it, if you're sticking to the env defaults, that would be the word `secret`
 
-After gaining access to the MySQL interface, copy th below codes an run it in there.
+After gaining access to the MySQL interface, copy the codes below and run it in there.
 
 ```mysql
 create user ‘replica’@’%’ identified by ‘password’;
@@ -54,6 +57,20 @@ flush privileges;
 ```
 
 This sets up a user that will be in charge of replication, and grants replication abilities to it.
+
+Next, you need to grab the binary log details for the WRITE database which will be used later to provision the READ database
+
+Still in the WRITE database mysql terminal, run:
+
+```mysql
+use main_db;
+show master status;
+```
+This will bring out a table containing the binary log file and the position, copy this details to somewhere safe.
+
+
+### READ DATABASE SETUP
+
 
 ## The Docker File
 
