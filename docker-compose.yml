@@ -64,6 +64,38 @@ services:
       - ./docker/mysql/dumps:/var/log/dumps:rw
       - replication-2:/var/lib/mysql
 
+  web-server:
+    env_file:
+      - .env
+    container_name: web-server
+    image: 'web-server'
+    build:
+      context: ./docker/nginx
+    ports:
+      - ${NGINX_PORT}:80
+    restart: unless-stopped
+    depends_on:
+      - php-fpm
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/logs/:/var/log/nginx
+      - ./database:/var/www/html/database:rw
+
+  php-fpm:
+    env_file:
+      - .env
+    container_name: php-srv
+    image: php-srv
+    build:
+      context: ./docker/php
+    ports:
+      - ${PHP_PORT}:9000
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./database:/var/www/html/database:rw
 
 volumes:
   main:
