@@ -92,7 +92,9 @@ services:
       - ${PHP_PORT}:9000
     restart: unless-stopped
     depends_on:
-      - mysql
+      - primary-sql
+      - replica-sql-1
+      - replica-sql-2
     volumes:
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       - ./database:/var/www/html/database:rw
